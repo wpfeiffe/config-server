@@ -1,0 +1,5 @@
+server:
+  ssl:
+    key-store: "classpath:certificates/LAPTOP-PO3DUCDG.local.p12"
+    key-store-password: "Password1"
+    key-store-type: "PKCS12"
