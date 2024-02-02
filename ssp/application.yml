@@ -1,0 +1,136 @@
+server:
+  port: ${SERVER_PORT}
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
+springdoc:
+  api-docs:
+    enabled: true
+  paths-to-match: /api/patients/**,/api/orders/**,/api/token/**,/api/user,/api/notifications/**,/api/devices/**,/api/users/**,/api/readings/**
+  swagger-ui:
+    disable-swagger-default-url: true
+    urls:
+      - name: Smart Meter API 2.0
+        url: /v3/api-docs
+      - name: Smart Meter API 1.0
+        url: /iglucose-docs.yaml
+    enabled: true
+    path: /swagger-ui
+    urls-primary-name: Smart Meter API 2.0
+    tags-sorter: alpha
+    validator-url: none
+    supported-submit-methods: ["get", "options", "head", "trace"]
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 12MB
+  session:
+    store-type: redis
+  mail:
+    default-encoding: UTF-8
+    host: ${SMTP_HOST}
+    mail-from: ${SMTP_FROM}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:5432/${DB_DATABASE}?createDatabaseIfNotExist=false&useTimezone=true&serverTimezone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  warehouse:
+    datasource:
+      url: jdbc:postgresql://${WH_DB_HOST}:5432/${WH_DB_DATABASE}?createDatabaseIfNotExist=false&useTimezone=true&serverTimezone=UTC
+      username: ${WH_DB_USERNAME}
+      password: ${WH_DB_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format-sql: true
+        type:
+          json_format_mapper: com.iglucose.portal.config.JacksonJsonFormatMapperCustom
+
+    database: postgresql
+#    databasePlatform: "org.hibernate.dialect.PostgreSQL9Dialect"
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+  data:
+    mongodb:
+      authentication-database: admin
+      host: ${MONGODB_HOST}
+      port: ${MONGODB_PORT}
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
+      database: ${MONGODB_DB}
+    redis:
+      repositories:
+        enabled: false
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DB:1}
+jwt:
+  secret-key: ${JWT_KEY}
+  expiration: ${JWT_EXP}
+portal:
+  message:
+    display: true
+  order:
+    display: ${ORDER_FEATURE}
+api:
+  docs:
+    base_url: ${API_BASE_URL:http://api.smartmeterrpm.com:8080}
+    portal_url: ${PORTAL_BASE_URL}
+rest:
+  api:
+    base-url: ${REST_BASE_URL}
+    legacy-url: ${LEGACY_REST_BASE_URL}
+
+host:
+  url: ${HOST_URL}
+
+fedex:
+  fedex-api-url: ${FEDEX_API_URL}
+  client-id: ${FEDEX_CLIENT_ID}
+  client-secret: ${FEDEX_CLIENT_SECRET}
+  account-number: ${FEDEX_ACCOUNT_NUMBER}
+
+easypost:
+  api-key: ${EASYPOST_API_KEY}
+
+quickchart:
+  url: ${QUICK_CHART_URL:http://graph-render.eba-uzghgy3m.us-east-1.elasticbeanstalk.com}
+
+### Config for amazon s3 service ####
+amazon:
+  s3:
+    bucket-name: ${S3_BUCKET}
+    endpoint: ${S3_ENDPOINT}
+    access-key: ${S3_ACCESS_KEY}
+    secret-key: ${S3_SECRET_KEY}
+    region: ${S3_REGION}
+  reading-only:
+    access-key: ${AWS_READ_ONLY_ACCESS_KEY}
+    secret-key: ${AWS_READ_ONLY_SECRET_KEY}
+  dynamodb:
+    endpoint: ${DYNAMODB_ENDPOINT}
+
+### Config for Twilio ###
+twilio:
+  account-sid: ${TWILIO_ACCOUNT_SID}
+  auth-token: ${TWILIO_AUTH_TOKEN}
+  phone-number: ${TWILIO_PHONE_NUMBER}
